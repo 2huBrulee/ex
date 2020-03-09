@@ -37,7 +37,7 @@ const App = () => {
         </div>
         <div>
           <label>Telefono</label>
-          <input type="tel" maxLength="9" name="phone"></input>
+          <input type="text" pattern="\d*" maxlength="9" name="phone"></input>
         </div>
 
         <div>
