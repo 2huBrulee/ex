@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -20,7 +20,18 @@ const handleOnSubmit = e => {
 };
 
 const App = () => {
+  const [data, setData] = useState([]);
+
+  const handleOnchange = e => {
+    e.preventDefault();
+    axios.get(`localhost:8000/user`).then(results=>{
+      console.log(results);
+      setData(results);
+    }).catch(err => console.trace(err));
+  }
+
   return (
+    <>
     <div>
       <form onSubmit={handleOnSubmit}>
         <div>
@@ -45,6 +56,33 @@ const App = () => {
         </div>
       </form>
     </div>
+    <div>
+      <h3>Buscador</h3>
+      <div>
+          <label>Buscar: </label>
+          <input type="text" name="searchString"></input>
+          <button onClick={handleOnchange}>BUSCAR</button>
+        </div>
+      <div>
+        <table>
+          <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Telefono</th>
+          </tr>
+          {data && data.map(user=>(
+            <tr>
+              <td>{user.nombres}</td>
+              <td>{user.apellidos}</td>
+              <td>{user.email}</td>
+              <td>{user.telefono}</td>
+            </tr>
+          ))}
+        </table>
+      </div>
+    </div>
+    </>
   );
 };
 
